@@ -175,7 +175,7 @@ dotplot.multintersect <- function(m, sizeRange=c(0,20),
 #'
 #' @param x a character vector
 #' @param minSizeForBreak the minimum number of characters to break on two lines (default 20)
-#' @param lb the line break character (default "\n")
+#' @param lb the line break character (default line break)
 #'
 #' @return a character vector of length=length(x)
 #'

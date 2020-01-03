@@ -7,6 +7,7 @@
 #' @importFrom plotly renderPlotly
 #' @importFrom VennDiagram venn.diagram
 #' @importFrom UpSetR upset fromList
+#' @importFrom ggsci pal_nejm
 #' @export
 overlapper.server <- function(){
   
@@ -69,7 +70,7 @@ shinyServer(function(input, output, session) {
   
   activeLists <- reactive({
     ll <- rawLists()
-    names(ll) <- plgINS::breakStrings(names(ll), minSizeForBreak = 15)
+    names(ll) <- breakStrings(names(ll), minSizeForBreak = 15)
     if(!is.null(background())) ll <- lapply(ll, intersect, y=background())
     ll[sapply(ll,length)>0]
   })
@@ -86,7 +87,7 @@ shinyServer(function(input, output, session) {
   output$venn <- renderPlot({
     n <- length(activeLists())
     if(n<2) return(NULL)
-    cols <- plgINS::getQualitativePalette(n)
+    cols <- pal_nejm()(n)
     futile.logger::flog.threshold(futile.logger::ERROR, name = "VennDiagramLogger")
     grid.draw(venn.diagram( activeLists(), imagetype="svg", filename = NULL, 
                             euler.d=n<=3, scaled=n<=3, alpha=0.35,

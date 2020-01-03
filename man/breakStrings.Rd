@@ -11,7 +11,7 @@ breakStrings(x, minSizeForBreak = 20, lb = "\\n")
 
 \item{minSizeForBreak}{the minimum number of characters to break on two lines (default 20)}
 
-\item{lb}{the line break character (default "\n")}
+\item{lb}{the line break character (default line break)}
 }
 \value{
 a character vector of length=length(x)
