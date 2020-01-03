@@ -4,10 +4,11 @@
 #' 
 #' @import shiny ggplot2
 #' @importFrom cowplot theme_cowplot
-#' @importFrom plotly renderPlotly
+#' @importFrom plotly renderPlotly event_data
 #' @importFrom VennDiagram venn.diagram
 #' @importFrom UpSetR upset fromList
 #' @importFrom ggsci pal_nejm
+#' @importFrom grid grid.draw
 #' @export
 overlapper.server <- function(){
   
@@ -127,7 +128,7 @@ shinyServer(function(input, output, session) {
   output$heatmap <- renderPlotly({
     m <- multint()
     if(is.null(m)) return(m)
-    plot.multintersect(m, cluster=FALSE) %>% event_register("plotly_click")
+    event_register(plot.multintersect(m, cluster=FALSE), "plotly_click")
   })
   
   output$dotplot <- renderPlot({
