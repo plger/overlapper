@@ -118,9 +118,10 @@ plot.multintersect <- function(res, keyCol="log2Enrichment", keyWrite="overlap",
   if(length(margin)==1){
     margin <- list(l=margin, r=5, b=margin, t=ifelse(title=="",4,30), pad=4)
   }
-  p <- plot_ly(x=colnames(x), y=row.names(x), z=x, type="heatmap", text=lab, hoverinfo = 'text') %>% colorbar(title = keyCol) %>%
-    layout(title = title, xaxis = list(showgrid = FALSE), yaxis=list(showgrid = FALSE), margin = margin)
-  p %>% add_annotations(x = rep(colnames(x),each=nrow(x)), y = rep(row.names(x),ncol(x)), text = y, xref="x", yref="y", showarrow=FALSE)
+  p <- plot_ly(x=colnames(x), y=row.names(x), z=x, type="heatmap", text=lab, hoverinfo = 'text')
+  p <- colorbar(p, title = keyCol)
+  p <- layout(p, title = title, xaxis = list(showgrid = FALSE), yaxis=list(showgrid = FALSE), margin = margin)
+  add_annotations(p, x = rep(colnames(x),each=nrow(x)), y = rep(row.names(x),ncol(x)), text = y, xref="x", yref="y", showarrow=FALSE)
 }
 
 
