@@ -4,7 +4,7 @@
 #' 
 #' @import shiny ggplot2
 #' @importFrom cowplot theme_cowplot
-#' @importFrom plotly renderPlotly event_data
+#' @importFrom plotly renderPlotly event_data event_register
 #' @importFrom VennDiagram venn.diagram
 #' @importFrom UpSetR upset fromList
 #' @importFrom ggsci pal_nejm
