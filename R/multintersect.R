@@ -75,7 +75,7 @@ multintersect <- function(ll, ll2=NULL, universe=NULL, addSetSize=TRUE, breakNam
 #'
 #' @return Plots a plotly heatmap
 #'
-#' @import plotly
+#' @importFrom plotly plot_ly layout colorbar add_annotations
 #' @export
 plot.multintersect <- function(res, keyCol="log2Enrichment", keyWrite="overlap", margin=100, title="", cluster=TRUE){
   keyCol <- match.arg(keyCol, c("prob","enrichment","log2Enrichment","log10Prob","overlap","jaccard"))
@@ -136,7 +136,7 @@ plot.multintersect <- function(res, keyCol="log2Enrichment", keyWrite="overlap",
 #' enrichment.
 #'
 #' @return A ggplot.
-#' @import ggplot
+#' @import ggplot2
 #' @importFrom reshape2 melt
 #' @export
 dotplot.multintersect <- function(m, sizeRange=c(0,20), 
