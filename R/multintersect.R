@@ -12,10 +12,13 @@
 #'
 #' @export
 multintersect <- function(ll, ll2=NULL, universe=NULL, addSetSize=TRUE, breakNames=NULL){
+  if(!is.list(ll) || is.null(names(ll))) stop("`ll` should be a named list.")
   if(is.null(ll2)){
     symm <- TRUE
     ll2 <- ll
   }else{
+    if(!is.list(ll2) || is.null(names(ll2))) 
+      stop("If given, `ll2` should be a named list.")
     symm <- FALSE
   }
   if(is.null(universe)) universe <- unique(c(unlist(ll),unlist(ll2)))
@@ -134,13 +137,14 @@ plot.multintersect <- function(res, keyCol="log2Enrichment", keyWrite="overlap",
 #'
 #' @return A ggplot.
 #' @import ggplot
+#' @importFrom reshape2 melt
 #' @export
 dotplot.multintersect <- function(m, sizeRange=c(0,20), 
                                   colors=c(low="blue",mid="grey",high="yellow"),
                                   forceDivergent=FALSE){
   ml <- list( fill=log2(m$enr), val=m$m, size=-log10(m$prob) )
   ml <- lapply(ml, FUN=function(x){
-    if(all(row.names(x)==colnames(x))){
+    if(nrow(x)==ncol(x) && all(row.names(x)==colnames(x))){
       x[lower.tri(x,diag=TRUE)] <- NA
       x <- x[-nrow(x),-1]
     }
