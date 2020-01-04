@@ -16,7 +16,8 @@ shinyUI( dashboardPage(
       menuItem("Venn", tabName="tab_venn"),
       menuItem("Heatmap", tabName="tab_heatmap"),
       menuItem("Dotplot", tabName="tab_dotplot"),
-      menuItem("UpSet", tabName="tab_upset")
+      menuItem("UpSet", tabName="tab_upset"),
+      menuItem("Help", tabName="tab_help")
     )
   ),
   dashboardBody(
@@ -49,7 +50,22 @@ shinyUI( dashboardPage(
                                  )), 
       tabItem("tab_upset", box(width=12, withSpinner(plotOutput("upset", height="auto")),
                                tags$hr(),
-                               numericInput("h_upset", "Plot height", 500, min=200, max=1000, step=50)))
+                               numericInput("h_upset", "Plot height", 500, min=200, max=1000, step=50))),
+      tabItem("tab_help", box(width=12, title="Help", 
+                              tags$p("The overlapper app is meant to browse and test for significance the overlap between lists (e.g. of genes). The usage is simple:"),
+                              tags$ol(lapply(list("In the first tab ('Lists'), enter the content of each of your lists (as many as you like) and eventually give them names.",
+                                           "If you're interested in enrichment and significance of overlaps, you need to specify the universe or background in the second ('Background') tab. The appropriate background depends on the question, but it's usually the set of everything that could potentially have ended up in your overlap (for instance, if comparing two differential expressions, it'd be the intersection of the tested genes in both experiments).",
+                                           "Then you can go to any of the other tabs to view a representation:",
+                                           tags$ul(lapply(list("the Venn diagram displays the size of the sets and their various overlaps; the significance of the overlap of all sets will also be reported.",
+                                                        "the heatmap is interactive; the numbers shown are the number of items, but if you hover on a cell you'll see the enrichment/p-value, and if you click on a cell you'll see its content (i.e. the items of the intersection) displayed below the plot.",
+                                                        "the dotplot is similar but represents significance, enrichment and size of the overlap in a static plot (better for papers and such).",
+                                                        "the upset plot is an alternative to the Venn diagram to represent sets and their overlaps, which is especially better when you have many sets."
+                                                        ), tags$li)) 
+                                           ), tags$li))),
+                          box(width=12, tags$p(paste("overlapper version",packageVersion("overlapper"),"- Pierre-Luc Germain")),
+                              tags$p("In case of bugs/problems, create an issue here:"), 
+                              tags$a(href="https://github.com/plger/overlapper/issues","github.com/plger/overlapper"))
+      )
     )
   )
 ))
