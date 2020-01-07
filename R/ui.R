@@ -23,9 +23,11 @@ shinyUI( dashboardPage(
   dashboardBody(
     tabItems(
       tabItem("tab_lists",
-        tags$p(style="text-align: right;", shiny::actionButton("addlist", "Add list")),
-        uiOutput("list_inputs"),
-        actionButton("random","Random")
+        tags$p(style="text-align: right;", 
+               actionButton("addlist", "Add list"), 
+               actionButton("random","Random"), 
+               checkboxInput("icase", "Convert all to uppercase", value=FALSE)),
+        uiOutput("list_inputs")
       ),
       tabItem("tab_bg", box(width=12, 
         helpText(paste( "The background/universe is critical for significance,", 

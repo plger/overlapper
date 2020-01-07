@@ -24,9 +24,9 @@ shinyServer(function(input, output, session) {
   nbLists <- reactiveVal(2)
   
   buildListInput <- function(i){
-    name <- input[[paste0("name_list",i)]]
-    items <- input[[paste0("items_list",i)]]
-    en <- input[[paste0("enabled_list",i)]]
+    name <- isolate(input[[paste0("name_list",i)]])
+    items <- isolate(input[[paste0("items_list",i)]])
+    en <- isolate(input[[paste0("enabled_list",i)]])
     box(width=4, id=paste0("list",i),
         textInput(paste0("name_list",i), "", value=ifelse(is.null(name), paste("List",i), name)),
         textAreaInput(paste0("items_list",i), "Items", height="300px",
@@ -59,6 +59,7 @@ shinyServer(function(input, output, session) {
     w <- which(nn=="")
     if(length(w)>0) nn[w] <- paste("list",w)
     names(ll) <- nn
+    if(input$icase) ll <- lapply(ll, toupper)
     ll <- lapply(ll, getWords)
     ll[sapply(ll,length)>0]
   })
