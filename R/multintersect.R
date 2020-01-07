@@ -145,7 +145,7 @@ dotplot.multintersect <- function(m, sizeRange=c(0,20),
                                   forceDivergent=FALSE){
   ml <- list( fill=log2(m$enr), val=m$m, size=-log10(m$prob) )
   ml <- lapply(ml, FUN=function(x){
-    if(nrow(x)==ncol(x) && all(row.names(x)==colnames(x))){
+    if(nrow(x)==ncol(x) && all(row.names(x)==colnames(x)) && ncol(x)>2){
       x[lower.tri(x,diag=TRUE)] <- NA
       x <- x[-nrow(x),-1]
     }
