@@ -7,11 +7,12 @@
 #' @param universe An optional vector of the universe (all terms), used to calculate overlap probabilities and enrichments. If NULL, the union of all lists will be used. Only elements of `ll` and `ll2` that are in the `universe` will be considered.
 #' @param addSetSize Logical; whether to add the set sizes to set names (default TRUE)
 #' @param breakNames If not NULL (default), should be an number indicating the character length threshold above which set names should be split onto two lines.
+#' @param two.tailed Logical; whether to test for depletions as well as enrichments (default TRUE)
 #'
 #' @return Returns a list
 #'
 #' @export
-multintersect <- function(ll, ll2=NULL, universe=NULL, addSetSize=TRUE, breakNames=NULL){
+multintersect <- function(ll, ll2=NULL, universe=NULL, addSetSize=TRUE, breakNames=NULL, two.tailed=TRUE){
   if(!is.list(ll) || is.null(names(ll))) stop("`ll` should be a named list.")
   if(is.null(ll2)){
     symm <- TRUE
@@ -53,7 +54,7 @@ multintersect <- function(ll, ll2=NULL, universe=NULL, addSetSize=TRUE, breakNam
         jacc[i,j] <- NA
       }else{
         enr[i,j] <- getEnrichment(ll[[i]],ll2[[j]],universe)
-        prob[i,j] <- overlap.prob(ll[[i]],ll2[[j]],universe,lower=enr[i,j]<1)
+        prob[i,j] <- overlap.prob(ll[[i]],ll2[[j]],universe,lower=ifelse(two.tailed,enr[i,j]<1,FALSE))
         jacc[i,j] <- m[i,j]/length(unique(c(ll[[i]],ll2[[j]])))
       }
     }
