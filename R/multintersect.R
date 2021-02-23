@@ -135,6 +135,7 @@ plot.multintersect <- function(res, keyCol="log2Enrichment", keyWrite="overlap",
 #' @param forceDivergent Logical; whether to force the use of a divergent color
 #' palette; otherwise only low/high colors are used when there is no negative 
 #' enrichment.
+#' @param th Threshold of significance for enrichment to be plotted
 #'
 #' @return A ggplot.
 #' @import ggplot2
@@ -142,7 +143,7 @@ plot.multintersect <- function(res, keyCol="log2Enrichment", keyWrite="overlap",
 #' @export
 dotplot.multintersect <- function(m, sizeRange=c(0,20), 
                                   colors=c(low="blue",mid="grey",high="yellow"),
-                                  forceDivergent=FALSE){
+                                  forceDivergent=FALSE, th=0.05){
   ml <- list( fill=log2(m$enr), val=m$m, size=-log10(m$prob) )
   ml <- lapply(ml, FUN=function(x){
     if(nrow(x)==ncol(x) && all(row.names(x)==colnames(x)) && ncol(x)>2){
@@ -155,9 +156,12 @@ dotplot.multintersect <- function(m, sizeRange=c(0,20),
   for(f in names(ml)) ml[[f]] <- melt(ml[[f]], value.name=f)
   d <- cbind(ml[[1]], do.call(cbind, lapply(ml[-1], FUN=function(x) x[,3,drop=FALSE])))
   
+  thlog <- -log10(th)
+  
   p <- ggplot(d, aes(Var1, Var2, label=val)) + 
-    geom_point(aes(size=size,colour=fill)) + geom_text() + 
+    geom_point(aes(size=ifelse(size >= thlog, size, 0), colour=fill)) + geom_text() + 
     scale_size_continuous(range=sizeRange) + 
+    theme_bw() +
     theme(axis.line = element_blank(), axis.title = element_blank(),
           axis.text.x = element_text(angle = 45, hjust = 1)) + 
     labs(colour="log2(Enrichment)", size="-log10(p-value)")
