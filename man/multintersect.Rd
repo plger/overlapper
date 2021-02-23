@@ -17,6 +17,8 @@ multintersect(ll, ll2 = NULL, universe = NULL, addSetSize = TRUE,
 \item{addSetSize}{Logical; whether to add the set sizes to set names (default TRUE)}
 
 \item{breakNames}{If not NULL (default), should be an number indicating the character length threshold above which set names should be split onto two lines.}
+\item{two.tailed}{Logical; whether to test for depletions as well as enrichments (default TRUE)}
+
 }
 \value{
 Returns a list
